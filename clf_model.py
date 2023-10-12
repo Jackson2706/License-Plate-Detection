@@ -5,8 +5,8 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from joblib import dump
 
-from Dataset.dataset import Dataset
-from Utils.preprocess import preprocess_img, crop_object
+from dataset.dataset import Dataset
+from utils.classification_preprocess import preprocess_img, crop_object
 
 """
     Preprocessing dataset before training SVM
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     print("Accuracy: {} \nPrecision: {} \nRecall: {} \n".format(acc_score, precision, recall))
 
-    dump((clf,scaler), "Weights/clf_model_and_scaler_feature.pkl")
+    dump((clf, scaler, label_encoder), "weights/clf_model_and_scaler_feature.pkl")
 
 
 

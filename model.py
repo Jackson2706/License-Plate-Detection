@@ -17,6 +17,5 @@ for image_path, annotation in zip(image_path_list, annotation_list):
     object_img = crop_object(image, [x1,y1,x2,y2])
     imwrite("LP.jpg", object_img)
     hog_object_image = preprocess_img(image)
-    print(hog_object_image.shape)
     imwrite("test.jpg", hog_object_image)
     

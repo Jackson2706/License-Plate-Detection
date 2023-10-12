@@ -15,14 +15,9 @@ class Dataset:
         returns a list of images and annotations
     '''
     def __call__(self):
-        image_path_list = sorted(glob(self.dataset_dir + "/"+self.phase + "/*.jpg"))
+        self.images_list = sorted(glob(self.dataset_dir + "/"+self.phase + "/*.jpg"))
         xml_path_list = sorted(glob(self.dataset_dir + "/"+self.phase + "/*.xml"))
-        for image_path, xml_path in zip(image_path_list, xml_path_list):
-            #  using opencv to read the image data, image -> 3D array
-            image = imread(image_path)
-            # store the image to the image list 
-            self.images_list.append(image)
-
+        for xml_path in  xml_path_list:
             # parse the xml file
             tree  = ET.parse(xml_path)
             root = tree.getroot()

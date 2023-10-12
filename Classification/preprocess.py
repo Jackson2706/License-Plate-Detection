@@ -18,3 +18,9 @@ def preprocess_img(img_path):
     hog_features = hog(resized_img, orientation=9, pixels_per_pixel=(8,8), cell_per_block=(2,2),
                        transform_sqrt=True, block_norm="L2", feature_vector=True)
     return hog_features
+
+
+def crop_object(img, bbox):
+    x_min, y_min, x_max, y_max = bbox
+    object_image = img[y_min:y_max, x_min:x_max]
+    return object_image

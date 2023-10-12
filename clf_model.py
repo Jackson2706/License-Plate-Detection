@@ -3,6 +3,8 @@ from cv2 import imread, imwrite
 from numpy import array
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_score, recall_score
+from joblib import dump
+
 from Dataset.dataset import Dataset
 from Utils.preprocess import preprocess_img, crop_object
 
@@ -66,6 +68,10 @@ if __name__ == '__main__':
     recall = recall_score(y_val, y_pred)
 
     print("Accuracy: {} \nPrecision: {} \nRecall: {} \n".format(acc_score, precision, recall))
+
+    dump((clf,scaler), "Weights/clf_model_and_scaler_feature.pkl")
+
+
 
 
     

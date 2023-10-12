@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python crawl_data.py
+python Dataset/crawl_data.py

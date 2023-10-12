@@ -3,6 +3,12 @@ from numpy import float64
 from skimage.transform import resize
 from skimage.features import hog
 
+"""
+    Extract images from RGB images to 1D images with using HoG method
+    @param: image_path, for example: "./images/abc.jpg"
+    @return: a hoG image
+
+"""
 def preprocess_img(img_path):
     img = imread(img_path)
     if len(img.shape) > 2:

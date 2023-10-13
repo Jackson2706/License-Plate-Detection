@@ -2,3 +2,7 @@
 **.pyc
 *.pkl
 5587_jpg.rf.026eb4698e8035d73abea983bb0ef785.jpg
+*.jpg
+*.xml
+datasetnonlp-1/README.dataset.txt
+.gitignore

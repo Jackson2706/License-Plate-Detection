@@ -33,6 +33,8 @@ class Dataset:
                 objects_list.append([xmin, ymin, xmax, ymax, label])
             self.annotations_list.append(objects_list)
         return self.images_list, self.annotations_list
+    
+
 if __name__ == "__main__":
     from cv2 import rectangle, imwrite
     dataset = Dataset()

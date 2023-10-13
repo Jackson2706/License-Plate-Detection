@@ -1,17 +1,24 @@
 from cv2 import imread
 from joblib import load
-from numpy import argmax, all
-from utils.localization_process import pyramid, sliding_window
+from numpy import argmax
+import numpy as np
+from utils.localization_process import pyramid, sliding_window, nms
 from utils.classification_preprocess import preprocess_img
+from utils.metrics import visualize_bbox
+from time import time
 
-image_path = "5587_jpg.rf.026eb4698e8035d73abea983bb0ef785.jpg"
+
+start = time()
+image_path = "License_Plate-5/test/5587_jpg.rf.026eb4698e8035d73abea983bb0ef785.jpg"
 window_size = [
-    (32,32),
-    (64,64),
-    (128,128)
+    (8,4),
+    (16,8),
+    (32,16),
+    (64,32),
 ]
 stride = 12
-conf_threshold = 0.8
+conf_threshold = 0.95
+iou_threshold = 0.005
 image = imread(image_path)
 
 clf, scaler, label_encoder = load("weights/clf_model_and_scaler_feature.pkl")
@@ -30,9 +37,19 @@ for pyramid_img_info in pyramid_imgs:
         preprocessed_img = preprocess_img(object_img)
         normalized_img = scaler.transform([preprocessed_img])[0]
         decision = clf.predict_proba([normalized_img])[0]
-        if all(decision < conf_threshold):
+        if np.all(decision < conf_threshold):
             continue
         predict_id = argmax(decision)
         conf_score = decision[predict_id]
+        xmin  = int(xmin / scale_factor)
+        ymin = int(ymin / scale_factor)
+        xmax = int(xmax / scale_factor)
+        ymax = int(ymax / scale_factor)
         bboxes.append([xmin, ymin, xmax, ymax, predict_id, conf_score])
-        
+
+bboxes = nms(bboxes, iou_threshold=iou_threshold)
+lp_bbox = [bbox for bbox in bboxes if bbox[4] == 0]
+print(lp_bbox)
+end = time()
+print("Duration: {}".format(end-start))
+visualize_bbox(image, lp_bbox, label_encoder)

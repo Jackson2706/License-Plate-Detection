@@ -15,19 +15,19 @@ def preprocess_dataset(image_path_list, annotation_list):
     image_feature_list = []
     label_list = []
     for image_path, annotation in zip(image_path_list, annotation_list):
-        [[x1,y1,x2,y2, label]] = annotation
-        image = imread(image_path)
-        object_img = crop_object(image, [x1,y1,x2,y2])
-        hog_object_image = preprocess_img(object_img)
-        image_feature_list.append(hog_object_image)
-        label_list.append(label)
+        for [x1,y1,x2,y2, label] in annotation:
+            image = imread(image_path)
+            object_img = crop_object(image, [x1,y1,x2,y2])
+            hog_object_image = preprocess_img(object_img)
+            image_feature_list.append(hog_object_image)
+            label_list.append(label)
     return array(image_feature_list), array(label_list)
 
 if __name__ == '__main__':
     train_dataset = Dataset(dataset_dir="License_Plate-5", phase="train")
     train_image_path_list, train_annotation_list = train_dataset.__call__()
 
-    val_dataset = Dataset(dataset_dir="License_Plate-5", phase="valid")
+    val_dataset = Dataset(dataset_dir="License_Plate-5", phase="test")
     val_image_path_list, val_annotation_list = val_dataset.__call__()
 
     '''
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     # Normalize the feature
     scaler = StandardScaler()
     scaler.fit_transform(X_train)
-
+    print(y_train)
     # Defining the model
     clf = SVC(
         kernel='rbf',
@@ -70,6 +70,7 @@ if __name__ == '__main__':
     print("Accuracy: {} \nPrecision: {} \nRecall: {} \n".format(acc_score, precision, recall))
 
     dump((clf, scaler, label_encoder), "weights/clf_model_and_scaler_feature.pkl")
+    print(label_encoder.classes_)
 
 
 

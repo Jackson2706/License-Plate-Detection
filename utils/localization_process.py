@@ -11,7 +11,7 @@ def sliding_window(img, window_sizes, stride):
         for y_min in range(0, img_height-window_height+1, stride):
             for x_min in range(0, img_width-window_width+1, stride):
                 x_max = x_min + window_width
-                y_min = y_min + window_height
+                y_max = y_min + window_height
                 windows.append([x_min, y_min, x_max, y_max])
     return windows
 
@@ -39,7 +39,7 @@ def visualize_bbox(img, bboxes, label_encoder):
         label = f"{class_name} {conf_score}"
         (w,h), _ = getTextSize(label, FONT_HERSHEY_SIMPLEX, 0,.6, 1)
         rectangle(img, (x_min, y_min-20),(x_min+w, y_min), (0,255,0), -1)
-        putText(img, label, (x_min, y_min-5), FONT_HERSHEY_SIMPLEX, 0.6. (0,0,0),1) 
+        putText(img, label, (x_min, y_min-5), FONT_HERSHEY_SIMPLEX, 0.6, (0,0,0),1) 
 
     imshow(img)
     axis("off")

@@ -11,14 +11,12 @@ from time import time
 start = time()
 image_path = "License_Plate-5/test/5587_jpg.rf.026eb4698e8035d73abea983bb0ef785.jpg"
 window_size = [
-    (8,4),
-    (16,8),
-    (32,16),
-    (64,32),
+    (200,50),
+    (250,40)
 ]
 stride = 12
-conf_threshold = 0.95
-iou_threshold = 0.005
+conf_threshold = 0.99
+iou_threshold = 0.05
 image = imread(image_path)
 
 clf, scaler, label_encoder = load("weights/clf_model_and_scaler_feature.pkl")
